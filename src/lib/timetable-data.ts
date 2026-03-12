@@ -1,13 +1,6 @@
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type SubjectColor =
-  | "blue"
-  | "violet"
-  | "emerald"
-  | "amber"
-  | "rose"
-  | "cyan"
-  | "orange";
+export type SubjectColor = "blue" | "violet" | "emerald" | "amber" | "rose" | "cyan" | "orange";
 
 export interface Subject {
   id: string;
@@ -116,9 +109,23 @@ export const TIMETABLE_ENTRIES: TimetableEntry[] = [
   { id: "e10", subjectId: "english", date: "2026-03-11", startTime: "13:00", endTime: "14:30" },
 
   // Thursday 2026-03-12 (today)
-  { id: "e11", subjectId: "physics", date: "2026-03-12", startTime: "08:00", endTime: "09:30", notes: "Lab session — bring safety goggles" },
+  {
+    id: "e11",
+    subjectId: "physics",
+    date: "2026-03-12",
+    startTime: "08:00",
+    endTime: "09:30",
+    notes: "Lab session — bring safety goggles",
+  },
   { id: "e12", subjectId: "history", date: "2026-03-12", startTime: "10:00", endTime: "11:00" },
-  { id: "e13", subjectId: "math", date: "2026-03-12", startTime: "13:00", endTime: "14:30", notes: "Quiz on Chapter 7" },
+  {
+    id: "e13",
+    subjectId: "math",
+    date: "2026-03-12",
+    startTime: "13:00",
+    endTime: "14:30",
+    notes: "Quiz on Chapter 7",
+  },
   { id: "e14", subjectId: "biology", date: "2026-03-12", startTime: "15:00", endTime: "16:00" },
 
   // Friday 2026-03-13
@@ -127,7 +134,14 @@ export const TIMETABLE_ENTRIES: TimetableEntry[] = [
   { id: "e17", subjectId: "cs", date: "2026-03-13", startTime: "13:30", endTime: "15:00" },
 
   // Saturday 2026-03-14 (lighter day)
-  { id: "e18", subjectId: "math", date: "2026-03-14", startTime: "09:00", endTime: "10:30", notes: "Extra revision session" },
+  {
+    id: "e18",
+    subjectId: "math",
+    date: "2026-03-14",
+    startTime: "09:00",
+    endTime: "10:30",
+    notes: "Extra revision session",
+  },
 
   // Next week: Monday 2026-03-16
   { id: "e19", subjectId: "math", date: "2026-03-16", startTime: "08:00", endTime: "09:30" },
