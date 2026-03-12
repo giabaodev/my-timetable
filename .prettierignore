@@ -1,0 +1,18 @@
+# Build output
+.next/
+out/
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Lock files (let package manager manage these)
+bun.lock
+package-lock.json
+yarn.lock
+
+# Generated
+*.min.js
+*.min.css
+next-env.d.ts
