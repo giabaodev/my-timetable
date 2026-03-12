@@ -33,9 +33,9 @@ export function MonthView({ date, onDayClick }: MonthViewProps) {
       {/* Calendar grid */}
       <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
         {days.map((day) => {
-          const entries = TIMETABLE_ENTRIES
-            .filter((e) => isSameDay(day, e.date))
-            .sort((a, b) => a.startTime.localeCompare(b.startTime));
+          const entries = TIMETABLE_ENTRIES.filter((e) => isSameDay(day, e.date)).sort((a, b) =>
+            a.startTime.localeCompare(b.startTime)
+          );
 
           const isCurrentMonth = isSameMonth(day, date);
           const isDayToday = isToday(day);
@@ -54,9 +54,7 @@ export function MonthView({ date, onDayClick }: MonthViewProps) {
               <span
                 className={cn(
                   "text-xs sm:text-sm font-semibold w-6 h-6 flex items-center justify-center rounded-full shrink-0",
-                  isDayToday
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground"
+                  isDayToday ? "bg-primary text-primary-foreground" : "text-foreground"
                 )}
               >
                 {format(day, "d")}
@@ -99,7 +97,10 @@ function SubjectDot({ color, name }: { color: string; name: string }) {
   return (
     <div className="flex items-center gap-1 min-w-0">
       <span
-        className={cn("h-1.5 w-1.5 rounded-full shrink-0", DOT_COLORS[color] ?? "bg-muted-foreground")}
+        className={cn(
+          "h-1.5 w-1.5 rounded-full shrink-0",
+          DOT_COLORS[color] ?? "bg-muted-foreground"
+        )}
       />
       <span className="text-[10px] font-medium text-foreground truncate hidden sm:block">
         {name}

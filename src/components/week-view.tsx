@@ -19,9 +19,9 @@ export function WeekView({ date }: WeekViewProps) {
       <div className="overflow-x-auto -mx-4 px-4">
         <div className="flex gap-3 min-w-max sm:min-w-0 sm:grid sm:grid-cols-7">
           {days.map((day) => {
-            const entries = TIMETABLE_ENTRIES
-              .filter((e) => isSameDay(day, e.date))
-              .sort((a, b) => a.startTime.localeCompare(b.startTime));
+            const entries = TIMETABLE_ENTRIES.filter((e) => isSameDay(day, e.date)).sort((a, b) =>
+              a.startTime.localeCompare(b.startTime)
+            );
 
             const today = isToday(day);
 
@@ -30,9 +30,7 @@ export function WeekView({ date }: WeekViewProps) {
                 key={day.toISOString()}
                 className={cn(
                   "flex flex-col gap-2 w-36 sm:w-auto rounded-xl p-2",
-                  today
-                    ? "bg-primary/5 ring-1 ring-primary/20"
-                    : "bg-muted/40"
+                  today ? "bg-primary/5 ring-1 ring-primary/20" : "bg-muted/40"
                 )}
               >
                 {/* Day header */}
@@ -53,9 +51,7 @@ export function WeekView({ date }: WeekViewProps) {
                 {/* Entries */}
                 <div className="flex flex-col gap-1.5">
                   {entries.length === 0 ? (
-                    <p className="text-xs text-muted-foreground text-center py-2 italic">
-                      Free
-                    </p>
+                    <p className="text-xs text-muted-foreground text-center py-2 italic">Free</p>
                   ) : (
                     entries.map((entry) => {
                       const subject = SUBJECT_MAP[entry.subjectId];
