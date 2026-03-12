@@ -42,9 +42,7 @@ export function TimetablePage() {
       <main className="flex-1 px-4 pt-5 max-w-5xl mx-auto w-full">
         {view === "day" && <DayView date={currentDate} />}
         {view === "week" && <WeekView date={currentDate} />}
-        {view === "month" && (
-          <MonthView date={currentDate} onDayClick={handleDayClick} />
-        )}
+        {view === "month" && <MonthView date={currentDate} onDayClick={handleDayClick} />}
       </main>
     </div>
   );

@@ -52,12 +52,7 @@ export function TimetableHeader({
           </Select>
 
           {/* Today button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onGoToday}
-            className="h-9 text-sm"
-          >
+          <Button variant="outline" size="sm" onClick={onGoToday} className="h-9 text-sm">
             Today
           </Button>
 
@@ -72,9 +67,7 @@ export function TimetableHeader({
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <span className="text-sm font-medium min-w-[140px] text-center px-1">
-              {rangeLabel}
-            </span>
+            <span className="text-sm font-medium min-w-[140px] text-center px-1">{rangeLabel}</span>
             <Button
               variant="ghost"
               size="icon"

@@ -11,12 +11,11 @@ interface DayViewProps {
 }
 
 export function DayView({ date }: DayViewProps) {
-  const entries = TIMETABLE_ENTRIES
-    .filter((e) => isSameDay(date, e.date))
-    .sort((a, b) => a.startTime.localeCompare(b.startTime));
+  const entries = TIMETABLE_ENTRIES.filter((e) => isSameDay(date, e.date)).sort((a, b) =>
+    a.startTime.localeCompare(b.startTime)
+  );
 
-  const isToday =
-    format(date, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
+  const isToday = format(date, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
 
   if (entries.length === 0) {
     return (
