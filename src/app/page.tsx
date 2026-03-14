@@ -1,5 +1,5 @@
-import { TimetablePage } from "@/components/timetable-page";
+import SchedulePage from "./schedule/page";
 
 export default function Home() {
-  return <TimetablePage />;
+  return <SchedulePage />;
 }

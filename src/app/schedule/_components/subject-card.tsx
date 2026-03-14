@@ -64,7 +64,7 @@ export function SubjectCard({
   endTime,
   notes,
   compact = false,
-}: SubjectCardProps) {
+}: Readonly<SubjectCardProps>) {
   const colors = COLOR_MAP[subject.color];
 
   if (compact) {

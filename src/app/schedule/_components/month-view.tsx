@@ -1,18 +1,19 @@
 "use client";
 
-import { TIMETABLE_ENTRIES, SUBJECT_MAP } from "@/lib/timetable-data";
+import { TIMETABLE_ENTRIES, SUBJECT_MAP, type TimetableEntry } from "@/lib/timetable-data";
 import { getMonthDays, isSameDay } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 import { format, isToday, isSameMonth } from "date-fns";
 
 interface MonthViewProps {
-  date: Date;
-  onDayClick?: (day: Date) => void;
+  readonly date: Date;
+  readonly onDayClick?: (day: Date) => void;
+  readonly entries?: TimetableEntry[];
 }
 
 const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export function MonthView({ date, onDayClick }: MonthViewProps) {
+export function MonthView({ date, onDayClick, entries }: Readonly<MonthViewProps>) {
   const days = getMonthDays(date);
 
   return (
@@ -33,9 +34,9 @@ export function MonthView({ date, onDayClick }: MonthViewProps) {
       {/* Calendar grid */}
       <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
         {days.map((day) => {
-          const entries = TIMETABLE_ENTRIES.filter((e) => isSameDay(day, e.date)).sort((a, b) =>
-            a.startTime.localeCompare(b.startTime)
-          );
+          const dayEntries = (entries ?? TIMETABLE_ENTRIES)
+            .filter((e) => isSameDay(day, e.date))
+            .sort((a, b) => a.startTime.localeCompare(b.startTime));
 
           const isCurrentMonth = isSameMonth(day, date);
           const isDayToday = isToday(day);
@@ -45,7 +46,7 @@ export function MonthView({ date, onDayClick }: MonthViewProps) {
               key={day.toISOString()}
               onClick={() => onDayClick?.(day)}
               className={cn(
-                "group flex flex-col rounded-lg p-1 sm:p-2 min-h-[64px] sm:min-h-[80px] text-left transition-colors hover:bg-muted cursor-pointer",
+                "group flex flex-col rounded-lg p-1 sm:p-2 min-h-16 sm:min-h-20 text-left transition-colors hover:bg-muted cursor-pointer",
                 !isCurrentMonth && "opacity-40",
                 isDayToday && "bg-primary/8 ring-1 ring-primary/30 hover:bg-primary/12"
               )}
@@ -62,16 +63,16 @@ export function MonthView({ date, onDayClick }: MonthViewProps) {
 
               {/* Subject dots / pills */}
               <div className="mt-1 flex flex-col gap-0.5 w-full overflow-hidden">
-                {entries.slice(0, 2).map((entry) => {
+                {dayEntries.slice(0, 2).map((entry) => {
                   const subject = SUBJECT_MAP[entry.subjectId];
                   if (!subject) return null;
                   return (
                     <SubjectDot key={entry.id} color={subject.color} name={subject.shortName} />
                   );
                 })}
-                {entries.length > 2 && (
+                {dayEntries.length > 2 && (
                   <span className="text-[10px] text-muted-foreground font-medium px-1">
-                    +{entries.length - 2} more
+                    +{dayEntries.length - 2} more
                   </span>
                 )}
               </div>
@@ -93,7 +94,7 @@ const DOT_COLORS: Record<string, string> = {
   orange: "bg-orange-500",
 };
 
-function SubjectDot({ color, name }: { color: string; name: string }) {
+function SubjectDot({ color, name }: Readonly<{ color: string; name: string }>) {
   return (
     <div className="flex items-center gap-1 min-w-0">
       <span

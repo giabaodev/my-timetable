@@ -142,6 +142,15 @@ export const TIMETABLE_ENTRIES: TimetableEntry[] = [
     endTime: "10:30",
     notes: "Extra revision session",
   },
+  // Sunday 2026-03-15 (lighter day)
+  {
+    id: "e19",
+    subjectId: "math",
+    date: "2026-03-15",
+    startTime: "09:00",
+    endTime: "10:30",
+    notes: "Extra revision session",
+  },
 
   // Next week: Monday 2026-03-16
   { id: "e19", subjectId: "math", date: "2026-03-16", startTime: "08:00", endTime: "09:30" },
