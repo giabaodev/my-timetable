@@ -1,22 +1,18 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import './globals.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const anthropicLocal = localFont({
+  src: '../assets/fonts/anthropic.woff2',
 });
 
 export const metadata: Metadata = {
-  title: "My Timetable",
+  title: 'My Timetable',
   description:
-    "Your personal class timetable — view and manage your schedule by day, week, or month.",
+    'Your personal class timetable — view and manage your schedule by day, week, or month.',
 };
 
 export default function RootLayout({
@@ -26,9 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${anthropicLocal.className} antialiased`}>
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
