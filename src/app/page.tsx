@@ -1,5 +1,5 @@
-import { TimetablePage } from "@/components/timetable-page";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <TimetablePage />;
+  redirect('/schedule');
 }
