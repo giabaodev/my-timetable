@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Timetable
+
+A modern, responsive schedule management web app inspired by Google Calendar — built for Gen Z with a warm beige aesthetic.
+
+## Features
+
+- **Three calendar views**: Day, Week (default), and Month
+- **Event creation**: Quick-add via time slots or FAB button with title, date, time pickers, color swatches, categories, and repeat options
+- **Recurring events**: Daily, Weekly, Monthly, or Custom (specific days of week) — computed dynamically from rules
+- **Event details**: Click any event to view details in a slide-out sheet
+- **Smart deletion**: Delete single occurrence, this & future, or entire series for recurring events
+- **Keyboard shortcuts**: `N` = new event, `T` = jump to today
+- **Responsive design**: Desktop sidebar + tablet FAB + mobile bottom nav
+- **Toast notifications**: Friendly confirmation messages on add/delete
+- **Current time indicator**: Red line showing the current time in Day/Week views
+- **localStorage persistence**: All data stored locally — no backend needed
+- **Loading skeleton**: Smooth initial mount experience
+
+## Tech Stack
+
+- **Next.js** (App Router) + **React 19**
+- **Bun** runtime
+- **shadcn/ui** + **Radix UI** primitives
+- **Tailwind CSS** v4
+- **date-fns** for date math
+- **sonner** for toast notifications
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# Install dependencies
+bun install
+
+# Start development server
 bun dev
+
+# Build for production
+bun run build
+
+# Start production server
+bun start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## localStorage Schema
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All events are stored under the key `scheduleEvents` as a JSON array:
 
-## Learn More
+```ts
+interface ScheduleEvent {
+  id: string; // crypto.randomUUID()
+  title: string;
+  date: string; // "YYYY-MM-DD" (anchor date)
+  startTime: string; // "HH:MM"
+  endTime: string; // "HH:MM"
+  color: string; // hex color
+  category: "class" | "personal" | "reminder" | "other";
+  recurrence: {
+    type: "none" | "daily" | "weekly" | "monthly" | "custom";
+    daysOfWeek?: number[]; // 0=Sun…6=Sat (for 'custom')
+    endDate?: string; // ISO date (optional)
+  };
+  notes?: string;
+  createdAt: string; // ISO datetime
+  deletedOccurrences?: string[]; // ISO dates of individually deleted occurrences
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/
+│   ├── globals.css          # Beige theme CSS variables
+│   ├── layout.tsx           # Root layout with font + toaster
+│   └── page.tsx             # Main entry point
+├── components/
+│   ├── CalendarApp.tsx      # Main orchestrator component
+│   ├── calendar/
+│   │   ├── CalendarHeader.tsx
+│   │   ├── CurrentTimeIndicator.tsx
+│   │   ├── DayView.tsx
+│   │   ├── EventBlock.tsx
+│   │   ├── MonthView.tsx
+│   │   └── WeekView.tsx
+│   ├── modals/
+│   │   ├── AddEventModal.tsx
+│   │   └── EventDetailSheet.tsx
+│   ├── sidebar/
+│   │   ├── CategoryLegend.tsx
+│   │   └── MiniCalendar.tsx
+│   └── ui/                  # shadcn components
+├── hooks/
+│   ├── useCalendar.ts       # Date navigation + view state
+│   └── useEvents.ts         # CRUD + localStorage + recurrence
+└── lib/
+    ├── types.ts             # TypeScript types + constants
+    └── utils.ts             # cn() utility
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Color Palette
 
-## Deploy on Vercel
+| Role           | Hex       |
+| -------------- | --------- |
+| Background     | `#FAF7F2` |
+| Card/Surface   | `#F5F0E8` |
+| Accent         | `#E8DDD0` |
+| Text Primary   | `#2C2416` |
+| Text Secondary | `#7A6E5F` |
+| CTA/Highlight  | `#C9A96E` |
+| Danger         | `#D97B6C` |
+| Border         | `#E0D8CC` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
