@@ -65,7 +65,7 @@ export function AddEventModal({
       ? `${String(Math.min(23, Number.parseInt(defaultTime.split(":")[0]) + 1)).padStart(2, "0")}:${defaultTime.split(":")[1]}`
       : "10:00",
   );
-  const [color, setColor] = useState(EVENT_COLORS[0]);
+  const [color, setColor] = useState<string>(EVENT_COLORS[0]);
   const [category, setCategory] = useState<EventCategory>("class");
   const [recurrenceType, setRecurrenceType] = useState<RecurrenceType>("none");
   const [customDays, setCustomDays] = useState<number[]>([]);

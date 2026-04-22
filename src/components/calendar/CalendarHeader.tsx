@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import type { ViewMode } from "@/lib/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { UserMenu } from "@/components/auth/UserMenu";
 
 interface CalendarHeaderProps {
   title: string;
@@ -60,20 +61,23 @@ export function CalendarHeader({
           {title}
         </h2>
       </div>
-      <div className="flex rounded-lg border border-[#E0D8CC] bg-[#F5F0E8] p-0.5">
-        {views.map((v) => (
-          <button
-            key={v.value}
-            onClick={() => onViewChange(v.value)}
-            className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
-              view === v.value
-                ? "bg-white text-[#2C2416] shadow-sm"
-                : "text-[#7A6E5F] hover:text-[#2C2416]"
-            }`}
-          >
-            {v.label}
-          </button>
-        ))}
+      <div className="flex items-center gap-2">
+        <div className="flex rounded-lg border border-[#E0D8CC] bg-[#F5F0E8] p-0.5">
+          {views.map((v) => (
+            <button
+              key={v.value}
+              onClick={() => onViewChange(v.value)}
+              className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
+                view === v.value
+                  ? "bg-white text-[#2C2416] shadow-sm"
+                  : "text-[#7A6E5F] hover:text-[#2C2416]"
+              }`}
+            >
+              {v.label}
+            </button>
+          ))}
+        </div>
+        <UserMenu />
       </div>
     </div>
   );

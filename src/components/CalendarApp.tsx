@@ -13,11 +13,14 @@ import { AddEventModal } from "@/components/modals/AddEventModal";
 import { EventDetailSheet } from "@/components/modals/EventDetailSheet";
 import { MiniCalendar } from "@/components/sidebar/MiniCalendar";
 import { CategoryLegend } from "@/components/sidebar/CategoryLegend";
+import { UserMenu } from "@/components/auth/UserMenu";
 import { useEvents } from "@/hooks/useEvents";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useAuth } from "@/hooks/useAuth";
 import type { ScheduleEvent, ViewMode } from "@/lib/types";
 
 export default function CalendarApp() {
+  const { session } = useAuth();
   const {
     events,
     isLoaded,
@@ -25,7 +28,7 @@ export default function CalendarApp() {
     deleteEvent,
     deleteOccurrence,
     deleteThisAndFuture,
-  } = useEvents();
+  } = useEvents(session?.userId);
 
   const {
     currentDate,
@@ -126,14 +129,17 @@ export default function CalendarApp() {
       {/* Mobile Header */}
       <div className="sm:hidden flex items-center justify-between px-4 py-3 border-b border-[#E0D8CC]">
         <h1 className="text-base font-semibold text-[#2C2416]">{getTitle()}</h1>
-        <Button
-          variant="outline"
-          size="xs"
-          onClick={goToday}
-          className="text-[10px]"
-        >
-          Today
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="xs"
+            onClick={goToday}
+            className="text-[10px]"
+          >
+            Today
+          </Button>
+          <UserMenu />
+        </div>
       </div>
 
       <div className="flex-1 flex overflow-hidden">

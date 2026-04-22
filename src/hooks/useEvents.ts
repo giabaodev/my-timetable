@@ -12,35 +12,40 @@ import {
 } from "date-fns";
 import type { ScheduleEvent, RecurrenceRule } from "@/lib/types";
 
-const STORAGE_KEY = "scheduleEvents";
+const STORAGE_KEY_PREFIX = "schedulr_events_";
+
+function getStorageKey(userId?: string): string {
+  return userId ? `${STORAGE_KEY_PREFIX}${userId}` : "scheduleEvents";
+}
 
 function generateId(): string {
   return crypto.randomUUID();
 }
 
-function loadEvents(): ScheduleEvent[] {
+function loadEvents(userId?: string): ScheduleEvent[] {
   if (globalThis.window === undefined) return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(getStorageKey(userId));
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
   }
 }
 
-function saveEvents(events: ScheduleEvent[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+function saveEvents(events: ScheduleEvent[], userId?: string) {
+  localStorage.setItem(getStorageKey(userId), JSON.stringify(events));
 }
 
 /**
  * Generate occurrences of a recurring event within a date range.
  * Returns ISO date strings for each occurrence.
+ */
 function collectByStep(
   anchor: Date,
   effectiveEnd: Date,
   rangeStart: Date,
   deleted: Set<string>,
-  step: (d: Date) => Date
+  step: (d: Date) => Date,
 ): string[] {
   const results: string[] = [];
   let current = anchor;
@@ -129,19 +134,22 @@ export function getEventsForRange(
   return map;
 }
 
-export function useEvents() {
+export function useEvents(userId?: string) {
   const [events, setEvents] = useState<ScheduleEvent[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setEvents(loadEvents());
+    setEvents(loadEvents(userId));
     setIsLoaded(true);
-  }, []);
+  }, [userId]);
 
-  const persist = useCallback((updated: ScheduleEvent[]) => {
-    setEvents(updated);
-    saveEvents(updated);
-  }, []);
+  const persist = useCallback(
+    (updated: ScheduleEvent[]) => {
+      setEvents(updated);
+      saveEvents(updated, userId);
+    },
+    [userId],
+  );
 
   const addEvent = useCallback(
     (data: Omit<ScheduleEvent, "id" | "createdAt">) => {

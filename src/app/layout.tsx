@@ -4,6 +4,8 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/hooks/useAuth";
+import { AuthGuard } from "@/components/auth/AuthGuard";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -11,7 +13,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "My Timetable",
+  title: "Schedulr",
   description: "A modern schedule management app",
 };
 
@@ -23,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-[#FAF7F2] text-[#2C2416]">
-        {children}
+        <AuthProvider>
+          <AuthGuard>{children}</AuthGuard>
+        </AuthProvider>
         <Toaster position="bottom-center" />
       </body>
       <Analytics />
