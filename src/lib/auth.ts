@@ -16,8 +16,8 @@ export interface AuthSession {
   expiresAt: string; // ISO date
 }
 
-const USERS_KEY = "schedulr_users";
-const SESSION_KEY = "schedulr_session";
+const USERS_KEY = "schedule_users";
+const SESSION_KEY = "schedule_session";
 
 // -- Storage helpers --
 

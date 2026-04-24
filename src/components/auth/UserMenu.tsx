@@ -45,7 +45,7 @@ export function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#E8DDD0] transition-colors"
+        className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-accent transition-colors"
         aria-label="User menu"
       >
         {session.avatar ? (
@@ -55,36 +55,36 @@ export function UserMenu() {
             className="size-7 rounded-full object-cover"
           />
         ) : (
-          <div className="size-7 rounded-full bg-[#C9A96E] text-white flex items-center justify-center text-xs font-semibold">
+          <div className="size-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
             {initials}
           </div>
         )}
-        <span className="text-sm font-medium text-[#2C2416] hidden sm:inline max-w-24 truncate">
+        <span className="text-sm font-medium text-foreground hidden sm:inline max-w-24 truncate">
           {session.name}
         </span>
-        <ChevronDown className="size-3 text-[#7A6E5F]" />
+        <ChevronDown className="size-3 text-muted-foreground" />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-1.5 w-56 rounded-xl border border-[#E0D8CC] bg-[#F5F0E8] shadow-lg z-50 overflow-hidden">
-          <div className="px-3 py-3 border-b border-[#E0D8CC]">
+        <div className="absolute right-0 top-full mt-1.5 w-56 rounded-xl border border-border bg-card shadow-lg z-50 overflow-hidden">
+          <div className="px-3 py-3 border-b border-border">
             <div className="flex items-center gap-2">
-              <User className="size-4 text-[#7A6E5F]" />
-              <span className="text-xs font-medium text-[#7A6E5F]">
+              <User className="size-4 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground">
                 My Account
               </span>
             </div>
-            <p className="text-sm font-medium text-[#2C2416] mt-1.5">
+            <p className="text-sm font-medium text-foreground mt-1.5">
               {session.name}
             </p>
-            <p className="text-xs text-[#7A6E5F]">{session.email}</p>
+            <p className="text-xs text-muted-foreground">{session.email}</p>
           </div>
 
           <div className="p-1">
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#D97B6C] hover:bg-[#D97B6C]/10 transition-colors text-left"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-destructive hover:bg-destructive/10 transition-colors text-left"
             >
               <LogOut className="size-4" />
               Sign out

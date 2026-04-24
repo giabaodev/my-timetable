@@ -37,7 +37,7 @@ export function MiniCalendar({
   return (
     <div className="p-3">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-semibold text-[#2C2416]">
+        <span className="text-sm font-semibold text-foreground">
           {format(viewDate, "MMMM yyyy")}
         </span>
         <div className="flex gap-0.5">
@@ -65,7 +65,7 @@ export function MiniCalendar({
           (d) => (
             <div
               key={d}
-              className="text-center text-[10px] text-[#7A6E5F] font-medium py-1"
+              className="text-center text-[10px] text-muted-foreground font-medium py-1"
             >
               {d.charAt(0)}
             </div>
@@ -80,11 +80,11 @@ export function MiniCalendar({
             <button
               key={day.toISOString()}
               onClick={() => onDateSelect(day)}
-              className={`text-center text-[11px] py-1 rounded-full transition-all hover:bg-[#E8DDD0] ${
-                inMonth ? "text-[#2C2416]" : "text-[#7A6E5F]/40"
+              className={`text-center text-[11px] py-1 rounded-full transition-all hover:bg-accent ${
+                inMonth ? "text-foreground" : "text-muted-foreground/40"
               } ${
-                selected ? "bg-[#C9A96E] text-white hover:bg-[#C9A96E]" : ""
-              } ${today && !selected ? "font-bold text-[#C9A96E]" : ""}`}
+                selected ? "bg-primary text-white hover:bg-primary" : ""
+              } ${today && !selected ? "font-bold text-primary" : ""}`}
             >
               {format(day, "d")}
             </button>

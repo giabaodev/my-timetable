@@ -135,9 +135,9 @@ export function AddEventModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[480px] bg-[#FAF7F2] border-[#E0D8CC] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-120 bg-background border-border max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-[#2C2416] text-lg">
+          <DialogTitle className="text-foreground text-lg">
             New Event ✨
           </DialogTitle>
         </DialogHeader>
@@ -145,7 +145,7 @@ export function AddEventModal({
         <div className="space-y-4 py-2">
           {/* Title */}
           <div className="space-y-1.5">
-            <Label htmlFor="title" className="text-[#7A6E5F] text-xs">
+            <Label htmlFor="title" className="text-muted-foreground text-xs">
               Title
             </Label>
             <Input
@@ -153,14 +153,14 @@ export function AddEventModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="What's the plan?"
-              className="bg-[#F5F0E8] border-[#E0D8CC] focus:border-[#C9A96E] text-[#2C2416] placeholder:text-[#7A6E5F]/50"
+              className="bg-card border-border focus:border-primary text-foreground placeholder:text-muted-foreground/50"
               autoFocus
             />
           </div>
 
           {/* Date */}
           <div className="space-y-1.5">
-            <Label htmlFor="date" className="text-[#7A6E5F] text-xs">
+            <Label htmlFor="date" className="text-muted-foreground text-xs">
               Date
             </Label>
             <Input
@@ -168,19 +168,21 @@ export function AddEventModal({
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="bg-[#F5F0E8] border-[#E0D8CC] text-[#2C2416]"
+              className="bg-card border-border text-foreground"
             />
           </div>
 
           {/* Time */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-[#7A6E5F] text-xs">Start Time</Label>
+              <Label className="text-muted-foreground text-xs">
+                Start Time
+              </Label>
               <Select value={startTime} onValueChange={setStartTime}>
-                <SelectTrigger className="bg-[#F5F0E8] border-[#E0D8CC] text-[#2C2416]">
+                <SelectTrigger className="bg-card border-border text-foreground">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-[#FAF7F2] border-[#E0D8CC] max-h-48">
+                <SelectContent className="bg-background border-border max-h-48">
                   {TIME_OPTIONS.map((t) => (
                     <SelectItem key={t} value={t}>
                       {t}
@@ -190,12 +192,12 @@ export function AddEventModal({
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[#7A6E5F] text-xs">End Time</Label>
+              <Label className="text-muted-foreground text-xs">End Time</Label>
               <Select value={endTime} onValueChange={setEndTime}>
-                <SelectTrigger className="bg-[#F5F0E8] border-[#E0D8CC] text-[#2C2416]">
+                <SelectTrigger className="bg-card border-border text-foreground">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-[#FAF7F2] border-[#E0D8CC] max-h-48">
+                <SelectContent className="bg-background border-border max-h-48">
                   {TIME_OPTIONS.map((t) => (
                     <SelectItem key={t} value={t}>
                       {t}
@@ -208,7 +210,7 @@ export function AddEventModal({
 
           {/* Color */}
           <div className="space-y-1.5">
-            <Label className="text-[#7A6E5F] text-xs">Color</Label>
+            <Label className="text-muted-foreground text-xs">Color</Label>
             <div className="flex gap-2">
               {EVENT_COLORS.map((c) => (
                 <button
@@ -217,7 +219,7 @@ export function AddEventModal({
                   onClick={() => setColor(c)}
                   className={`size-8 rounded-full transition-all hover:scale-110 ${
                     color === c
-                      ? "ring-2 ring-offset-2 ring-offset-[#FAF7F2]"
+                      ? "ring-2 ring-offset-2 ring-offset-background"
                       : ""
                   }`}
                   style={{
@@ -232,15 +234,15 @@ export function AddEventModal({
 
           {/* Category */}
           <div className="space-y-1.5">
-            <Label className="text-[#7A6E5F] text-xs">Category</Label>
+            <Label className="text-muted-foreground text-xs">Category</Label>
             <Select
               value={category}
               onValueChange={(v) => setCategory(v as EventCategory)}
             >
-              <SelectTrigger className="bg-[#F5F0E8] border-[#E0D8CC] text-[#2C2416]">
+              <SelectTrigger className="bg-card border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[#FAF7F2] border-[#E0D8CC]">
+              <SelectContent className="bg-background border-border">
                 {CATEGORY_OPTIONS.map((opt) => (
                   <SelectItem key={opt.value} value={opt.value}>
                     {opt.emoji} {opt.label}
@@ -252,15 +254,15 @@ export function AddEventModal({
 
           {/* Repeat */}
           <div className="space-y-1.5">
-            <Label className="text-[#7A6E5F] text-xs">Repeat</Label>
+            <Label className="text-muted-foreground text-xs">Repeat</Label>
             <Select
               value={recurrenceType}
               onValueChange={(v) => setRecurrenceType(v as RecurrenceType)}
             >
-              <SelectTrigger className="bg-[#F5F0E8] border-[#E0D8CC] text-[#2C2416]">
+              <SelectTrigger className="bg-card border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[#FAF7F2] border-[#E0D8CC]">
+              <SelectContent className="bg-background border-border">
                 {RECURRENCE_OPTIONS.map((opt) => (
                   <SelectItem key={opt.value} value={opt.value}>
                     {opt.label}
@@ -278,8 +280,8 @@ export function AddEventModal({
                     onClick={() => toggleCustomDay(i)}
                     className={`size-9 rounded-full text-xs font-medium transition-all ${
                       customDays.includes(i)
-                        ? "bg-[#C9A96E] text-white"
-                        : "bg-[#F5F0E8] text-[#7A6E5F] hover:bg-[#E8DDD0]"
+                        ? "bg-primary text-white"
+                        : "bg-card text-muted-foreground hover:bg-accent"
                     }`}
                   >
                     {day.charAt(0)}
@@ -291,7 +293,7 @@ export function AddEventModal({
 
           {/* Notes */}
           <div className="space-y-1.5">
-            <Label htmlFor="notes" className="text-[#7A6E5F] text-xs">
+            <Label htmlFor="notes" className="text-muted-foreground text-xs">
               Notes (optional)
             </Label>
             <Textarea
@@ -299,7 +301,7 @@ export function AddEventModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add some notes..."
-              className="bg-[#F5F0E8] border-[#E0D8CC] text-[#2C2416] placeholder:text-[#7A6E5F]/50 min-h-[60px] resize-none"
+              className="bg-card border-border text-foreground placeholder:text-muted-foreground/50 min-h-15 resize-none"
             />
           </div>
         </div>
@@ -308,14 +310,14 @@ export function AddEventModal({
           <Button
             variant="outline"
             onClick={() => handleOpenChange(false)}
-            className="border-[#E0D8CC] text-[#7A6E5F]"
+            className="border-border text-muted-foreground"
           >
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             disabled={!title.trim()}
-            className="bg-[#C9A96E] text-white hover:bg-[#B89A5F]"
+            className="bg-primary text-white hover:bg-primary-hover"
           >
             Save Event
           </Button>

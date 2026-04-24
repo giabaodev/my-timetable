@@ -69,15 +69,15 @@ export function DayView({
           {HOURS.map((hour) => (
             <div
               key={hour}
-              className="absolute left-0 right-0 border-b border-[#E0D8CC]/50 flex"
+              className="absolute left-0 right-0 border-b border-border/50 flex"
               style={{ top: hour * HOUR_HEIGHT, height: HOUR_HEIGHT }}
             >
-              <div className="w-16 shrink-0 pr-2 text-right text-[11px] text-[#7A6E5F] pt-[-4px] -translate-y-2">
+              <div className="w-16 shrink-0 pr-2 text-right text-[11px] text-muted-foreground pt-[-4px] -translate-y-2">
                 {hour === 0 ? "" : format(new Date(2000, 0, 1, hour), "h a")}
               </div>
               <button
                 type="button"
-                className="flex-1 cursor-pointer hover:bg-[#E8DDD0]/30 transition-colors border-none bg-transparent"
+                className="flex-1 cursor-pointer hover:bg-accent/30 transition-colors border-none bg-transparent"
                 onClick={() =>
                   onSlotClick(dateStr, `${String(hour).padStart(2, "0")}:00`)
                 }

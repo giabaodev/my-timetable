@@ -27,6 +27,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-primary-hover: var(--primary-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -67,6 +68,7 @@
   --border: #e0d8cc;
   --input: #e0d8cc;
   --ring: #c9a96e;
+  --primary-hover: #b89a5f;
   --chart-1: #c9a96e;
   --chart-2: #d97b6c;
   --chart-3: #7a6e5f;

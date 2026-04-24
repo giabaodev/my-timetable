@@ -9,6 +9,7 @@ import type { ScheduleEvent } from "@/lib/types";
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 const HOUR_HEIGHT = 60;
+const MOBILE_TIME_WIDTH = 40;
 
 function getTimePosition(time: string): number {
   const [h, m] = time.split(":").map(Number);
@@ -59,25 +60,25 @@ export function WeekView({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Day headers */}
-      <div className="flex border-b border-[#E0D8CC] shrink-0">
-        <div className="w-14 shrink-0" />
+      <div className="flex border-b border-border shrink-0">
+        <div className="w-11 md:w-14 shrink-0" />
         {weekDays.map((day) => {
           const today = isSameDay(day, now);
           return (
             <div
               key={day.toISOString()}
-              className={`flex-1 text-center py-2 border-l border-[#E0D8CC]/50 ${
-                today ? "bg-[#C9A96E]/10" : ""
+              className={`flex-1 text-center py-2 border-l border-border/50 ${
+                today ? "bg-primary/10" : ""
               }`}
             >
-              <div className="text-[11px] text-[#7A6E5F] uppercase tracking-wide">
+              <div className="text-[11px] text-muted-foreground uppercase tracking-wide">
                 {format(day, "EEE")}
               </div>
               <div
                 className={`text-lg font-semibold ${
                   today
-                    ? "bg-[#C9A96E] text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto"
-                    : "text-[#2C2416]"
+                    ? "bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto"
+                    : "text-foreground"
                 }`}
               >
                 {format(day, "d")}
@@ -94,11 +95,11 @@ export function WeekView({
           style={{ height: HOURS.length * HOUR_HEIGHT }}
         >
           {/* Time labels */}
-          <div className="w-14 shrink-0 relative">
+          <div className="w-11 md:w-14 shrink-0 relative">
             {HOURS.map((hour) => (
               <div
                 key={hour}
-                className="absolute left-0 right-0 text-right pr-2 text-[11px] text-[#7A6E5F] -translate-y-2"
+                className="absolute left-0 right-0 text-right pr-2 text-[11px] text-muted-foreground -translate-y-2"
                 style={{ top: hour * HOUR_HEIGHT }}
               >
                 {hour === 0 ? "" : format(new Date(2000, 0, 1, hour), "h a")}
@@ -115,15 +116,15 @@ export function WeekView({
             return (
               <div
                 key={dayStr}
-                className={`flex-1 relative border-l border-[#E0D8CC]/50 ${
-                  today ? "bg-[#C9A96E]/5" : ""
+                className={`flex-1 relative border-l border-border/50 ${
+                  today ? "bg-primary/5" : ""
                 }`}
               >
                 {HOURS.map((hour) => (
                   <button
                     type="button"
                     key={hour}
-                    className="absolute left-0 right-0 border-b border-[#E0D8CC]/30 cursor-pointer hover:bg-[#E8DDD0]/30 transition-colors bg-transparent"
+                    className="absolute left-0 right-0 border-b border-border/30 cursor-pointer hover:bg-accent/30 transition-colors bg-transparent"
                     style={{ top: hour * HOUR_HEIGHT, height: HOUR_HEIGHT }}
                     onClick={() =>
                       onSlotClick(dayStr, `${String(hour).padStart(2, "0")}:00`)

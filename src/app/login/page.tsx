@@ -53,15 +53,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
-        <div className="bg-[#F5F0E8] rounded-2xl border border-[#E0D8CC] shadow-sm p-8">
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-8">
           {/* Logo */}
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-[#2C2416] tracking-tight">
-              Schedulr
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">
+              Schedule
             </h1>
-            <p className="text-sm text-[#7A6E5F] mt-1">Welcome back ✌️</p>
+            <p className="text-sm text-muted-foreground mt-1">Welcome back ✌️</p>
           </div>
 
           {/* Google */}
@@ -70,17 +70,17 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#E0D8CC]" />
+              <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-[#F5F0E8] px-3 text-[#7A6E5F]">or</span>
+              <span className="bg-card px-3 text-muted-foreground">or</span>
             </div>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-[#7A6E5F] text-xs">
+              <Label htmlFor="email" className="text-muted-foreground text-xs">
                 Email
               </Label>
               <Input
@@ -89,13 +89,13 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="bg-[#FAF7F2] border-[#E0D8CC] text-[#2C2416] placeholder:text-[#7A6E5F]/50"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground/50"
                 autoComplete="email"
               />
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-[#7A6E5F] text-xs">
+              <Label htmlFor="password" className="text-muted-foreground text-xs">
                 Password
               </Label>
               <Input
@@ -104,27 +104,27 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="bg-[#FAF7F2] border-[#E0D8CC] text-[#2C2416] placeholder:text-[#7A6E5F]/50"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground/50"
                 autoComplete="current-password"
               />
             </div>
 
-            {error && <p className="text-sm text-[#D97B6C]">{error}</p>}
+            {error && <p className="text-sm text-destructive">{error}</p>}
 
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#C9A96E] text-white hover:bg-[#B89A5F] rounded-xl"
+              className="w-full bg-primary text-white hover:bg-primary-hover rounded-xl"
             >
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
 
-          <p className="text-center text-sm text-[#7A6E5F] mt-6">
+          <p className="text-center text-sm text-muted-foreground mt-6">
             Don&apos;t have an account?{" "}
             <Link
               href="/register"
-              className="text-[#C9A96E] hover:underline font-medium"
+              className="text-primary hover:underline font-medium"
             >
               Sign up →
             </Link>
