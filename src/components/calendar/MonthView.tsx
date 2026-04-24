@@ -52,7 +52,7 @@ export function MonthView({
         {weekdays.map((d) => (
           <div
             key={d}
-            className="text-center text-[11px] font-medium text-[#7A6E5F] uppercase tracking-wider py-2"
+            className="text-center text-[11px] font-medium text-muted-foreground uppercase tracking-wider py-2"
           >
             {d}
           </div>
@@ -60,7 +60,7 @@ export function MonthView({
       </div>
 
       {/* Calendar grid */}
-      <div className="grid grid-cols-7 flex-1 auto-rows-fr gap-px bg-[#E0D8CC]/50 rounded-xl overflow-hidden">
+      <div className="grid grid-cols-7 flex-1 auto-rows-fr gap-px bg-border/50 rounded-xl overflow-hidden">
         {days.map((day) => {
           const dayStr = format(day, "yyyy-MM-dd");
           const dayEvents = eventMap.get(dayStr) || [];
@@ -72,7 +72,7 @@ export function MonthView({
             <button
               type="button"
               key={dayStr}
-              className={`bg-[#FAF7F2] p-1 sm:p-1.5 min-h-20 sm:min-h-25 cursor-pointer transition-colors hover:bg-[#F5F0E8] text-left ${
+              className={`bg-background p-1 sm:p-1.5 min-h-20 sm:min-h-25 cursor-pointer transition-colors hover:bg-card text-left ${
                 inMonth ? "" : "opacity-40"
               }`}
               onClick={() => {
@@ -88,7 +88,7 @@ export function MonthView({
               <div className="flex justify-center mb-1">
                 <span
                   className={`text-xs sm:text-sm font-medium w-6 h-6 flex items-center justify-center rounded-full ${
-                    today ? "bg-[#C9A96E] text-white" : "text-[#2C2416]"
+                    today ? "bg-primary text-white" : "text-foreground"
                   }`}
                 >
                   {format(day, "d")}
@@ -108,7 +108,7 @@ export function MonthView({
                   ),
                 )}
                 {!isExpanded && dayEvents.length > MAX_VISIBLE && (
-                  <div className="text-[10px] text-[#7A6E5F] pl-1 font-medium">
+                  <div className="text-[10px] text-muted-foreground pl-1 font-medium">
                     +{dayEvents.length - MAX_VISIBLE} more
                   </div>
                 )}

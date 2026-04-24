@@ -30,12 +30,12 @@ export function AuthGuard({
   // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2]">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-3">
-          <h1 className="text-xl font-bold text-[#2C2416]">Schedulr</h1>
+          <h1 className="text-xl font-bold text-foreground">Schedule</h1>
           <div className="animate-pulse flex flex-col items-center gap-2">
-            <div className="h-3 w-24 bg-[#E8DDD0] rounded" />
-            <div className="h-3 w-16 bg-[#E8DDD0] rounded" />
+            <div className="h-3 w-24 bg-accent rounded" />
+            <div className="h-3 w-16 bg-accent rounded" />
           </div>
         </div>
       </div>

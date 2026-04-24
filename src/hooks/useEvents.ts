@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import type { ScheduleEvent, RecurrenceRule } from "@/lib/types";
 
-const STORAGE_KEY_PREFIX = "schedulr_events_";
+const STORAGE_KEY_PREFIX = "schedule_events_";
 
 function getStorageKey(userId?: string): string {
   return userId ? `${STORAGE_KEY_PREFIX}${userId}` : "scheduleEvents";

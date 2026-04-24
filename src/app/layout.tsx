@@ -13,7 +13,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Schedulr",
+  title: "Schedule",
   description: "A modern schedule management app",
 };
 
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans bg-[#FAF7F2] text-[#2C2416]">
+      <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
         <AuthProvider>
           <AuthGuard>{children}</AuthGuard>
         </AuthProvider>

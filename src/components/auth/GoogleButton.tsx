@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "../ui/button";
 
 interface GoogleProfile {
   name: string;
@@ -36,10 +37,9 @@ export function GoogleButton({ onSuccess }: Readonly<GoogleButtonProps>) {
 
   return (
     <>
-      <button
-        type="button"
+      <Button
         onClick={() => setPickerOpen(true)}
-        className="w-full flex items-center justify-center gap-3 h-10 rounded-lg border border-[#E0D8CC] bg-white text-sm font-medium text-[#2C2416] shadow-sm hover:shadow-md transition-all hover:bg-gray-50"
+        className="w-full gap-3 h-10  border-border bg-white text-foreground shadow-sm hover:shadow-md hover:bg-gray-50"
       >
         <svg className="size-5" viewBox="0 0 24 24">
           <path
@@ -60,13 +60,13 @@ export function GoogleButton({ onSuccess }: Readonly<GoogleButtonProps>) {
           />
         </svg>
         Continue with Google
-      </button>
+      </Button>
 
       {/* Mock account picker */}
       <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
-        <DialogContent className="sm:max-w-xs bg-white border-[#E0D8CC]">
+        <DialogContent className="sm:max-w-xs bg-white border-border">
           <DialogHeader>
-            <DialogTitle className="text-center text-[#2C2416]">
+            <DialogTitle className="text-center text-foreground">
               Choose an account
             </DialogTitle>
           </DialogHeader>
@@ -79,16 +79,16 @@ export function GoogleButton({ onSuccess }: Readonly<GoogleButtonProps>) {
                   setPickerOpen(false);
                   onSuccess(account);
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#F5F0E8] transition-colors text-left"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-card transition-colors text-left"
               >
-                <div className="size-9 rounded-full bg-[#C9A96E] flex items-center justify-center text-white font-semibold text-sm shrink-0">
+                <div className="size-9 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm shrink-0">
                   {account.name.charAt(0)}
                 </div>
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-[#2C2416] truncate">
+                  <div className="text-sm font-medium text-foreground truncate">
                     {account.name}
                   </div>
-                  <div className="text-xs text-[#7A6E5F] truncate">
+                  <div className="text-xs text-muted-foreground truncate">
                     {account.email}
                   </div>
                 </div>
@@ -103,9 +103,9 @@ export function GoogleButton({ onSuccess }: Readonly<GoogleButtonProps>) {
                   email: `user${Date.now()}@gmail.com`,
                 });
               }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#F5F0E8] transition-colors text-left text-sm text-[#7A6E5F]"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-card transition-colors text-left text-sm text-muted-foreground"
             >
-              <div className="size-9 rounded-full border-2 border-dashed border-[#E0D8CC] flex items-center justify-center text-[#7A6E5F] shrink-0">
+              <div className="size-9 rounded-full border-2 border-dashed border-border flex items-center justify-center text-muted-foreground shrink-0">
                 +
               </div>
               Use another account
