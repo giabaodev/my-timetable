@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
+import { useState } from 'react';
 import {
   format,
   startOfMonth,
@@ -10,10 +10,10 @@ import {
   eachDayOfInterval,
   isSameMonth,
   isToday,
-} from "date-fns";
-import { EventBlock } from "./EventBlock";
-import { getEventsForRange } from "@/hooks/useEvents";
-import type { ScheduleEvent } from "@/lib/types";
+} from 'date-fns';
+import { EventBlock } from './event-block';
+import { getEventsForRange } from '@/hooks/useEvents';
+import type { ScheduleEvent } from '@/constants/calendar';
 
 interface MonthViewProps {
   currentDate: Date;
@@ -39,11 +39,9 @@ export function MonthView({
 
   const days = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
 
-  const eventMap = useMemo(() => {
-    return getEventsForRange(events, calendarStart, calendarEnd);
-  }, [events, calendarStart.getTime(), calendarEnd.getTime()]);
+  const eventMap = getEventsForRange(events, calendarStart, calendarEnd);
 
-  const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   return (
     <div className="flex-1 flex flex-col overflow-auto p-2 sm:p-4">
@@ -62,7 +60,7 @@ export function MonthView({
       {/* Calendar grid */}
       <div className="grid grid-cols-7 flex-1 auto-rows-fr gap-px bg-border/50 rounded-xl overflow-hidden">
         {days.map((day) => {
-          const dayStr = format(day, "yyyy-MM-dd");
+          const dayStr = format(day, 'yyyy-MM-dd');
           const dayEvents = eventMap.get(dayStr) || [];
           const inMonth = isSameMonth(day, currentDate);
           const today = isToday(day);
@@ -73,7 +71,7 @@ export function MonthView({
               type="button"
               key={dayStr}
               className={`bg-background p-1 sm:p-1.5 min-h-20 sm:min-h-25 cursor-pointer transition-colors hover:bg-card text-left ${
-                inMonth ? "" : "opacity-40"
+                inMonth ? '' : 'opacity-40'
               }`}
               onClick={() => {
                 if (dayEvents.length > MAX_VISIBLE && !isExpanded) {
@@ -88,10 +86,10 @@ export function MonthView({
               <div className="flex justify-center mb-1">
                 <span
                   className={`text-xs sm:text-sm font-medium w-6 h-6 flex items-center justify-center rounded-full ${
-                    today ? "bg-primary text-white" : "text-foreground"
+                    today ? 'bg-primary text-white' : 'text-foreground'
                   }`}
                 >
-                  {format(day, "d")}
+                  {format(day, 'd')}
                 </span>
               </div>
 
@@ -105,7 +103,7 @@ export function MonthView({
                       onClick={onEventClick}
                       compact
                     />
-                  ),
+                  )
                 )}
                 {!isExpanded && dayEvents.length > MAX_VISIBLE && (
                   <div className="text-[10px] text-muted-foreground pl-1 font-medium">

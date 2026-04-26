@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { LogOut, User, ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 export function UserMenu() {
   const { session, logout } = useAuth();
@@ -49,7 +50,7 @@ export function UserMenu() {
         aria-label="User menu"
       >
         {session.avatar ? (
-          <img
+          <Image
             src={session.avatar}
             alt={session.name}
             className="size-7 rounded-full object-cover"

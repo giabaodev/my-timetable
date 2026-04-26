@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { format, parseISO } from "date-fns";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { format, parseISO } from 'date-fns';
+import { toast } from 'sonner';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetFooter,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
   CATEGORY_OPTIONS,
   RECURRENCE_OPTIONS,
   DAYS_OF_WEEK,
   type ScheduleEvent,
-} from "@/lib/types";
-import { Calendar, Clock, Tag, Repeat, FileText, Trash2 } from "lucide-react";
+} from '@/constants/calendar';
+import { Calendar, Clock, Tag, Repeat, FileText, Trash2 } from 'lucide-react';
 
 interface EventDetailSheetProps {
   event: ScheduleEvent | null;
@@ -45,9 +45,9 @@ export function EventDetailSheet({
 
   const cat = CATEGORY_OPTIONS.find((c) => c.value === event.category);
   const recurrence = RECURRENCE_OPTIONS.find(
-    (r) => r.value === event.recurrence.type,
+    (r) => r.value === event.recurrence.type
   );
-  const isRecurring = event.recurrence.type !== "none";
+  const isRecurring = event.recurrence.type !== 'none';
 
   const displayDate = occurrenceDate || event.date;
 
@@ -58,7 +58,7 @@ export function EventDetailSheet({
     }
     onDelete(event.id);
     onOpenChange(false);
-    toast.success("Event deleted", { description: "Poof! It's gone 💨" });
+    toast.success('Event deleted', { description: "Poof! It's gone 💨" });
   };
 
   const handleDeleteThis = () => {
@@ -67,8 +67,8 @@ export function EventDetailSheet({
     }
     onOpenChange(false);
     setShowDeleteOptions(false);
-    toast.success("Occurrence deleted", {
-      description: "Just this one — gone 💨",
+    toast.success('Occurrence deleted', {
+      description: 'Just this one — gone 💨',
     });
   };
 
@@ -76,8 +76,8 @@ export function EventDetailSheet({
     onDelete(event.id);
     onOpenChange(false);
     setShowDeleteOptions(false);
-    toast.success("All events deleted", {
-      description: "The whole series is gone 💨",
+    toast.success('All events deleted', {
+      description: 'The whole series is gone 💨',
     });
   };
 
@@ -87,8 +87,8 @@ export function EventDetailSheet({
     }
     onOpenChange(false);
     setShowDeleteOptions(false);
-    toast.success("Future events deleted", {
-      description: "This and future occurrences removed 💨",
+    toast.success('Future events deleted', {
+      description: 'This and future occurrences removed 💨',
     });
   };
 
@@ -119,7 +119,7 @@ export function EventDetailSheet({
         <div className="space-y-4 py-4">
           <div className="flex items-center gap-3 text-sm text-foreground">
             <Calendar className="size-4 text-muted-foreground" />
-            <span>{format(parseISO(displayDate), "EEEE, MMMM d, yyyy")}</span>
+            <span>{format(parseISO(displayDate), 'EEEE, MMMM d, yyyy')}</span>
           </div>
 
           <div className="flex items-center gap-3 text-sm text-foreground">
@@ -141,13 +141,13 @@ export function EventDetailSheet({
               <Repeat className="size-4 text-muted-foreground" />
               <span>
                 {recurrence?.label}
-                {event.recurrence.type === "custom" &&
+                {event.recurrence.type === 'custom' &&
                   event.recurrence.daysOfWeek && (
                     <span className="text-muted-foreground ml-1">
                       (
                       {event.recurrence.daysOfWeek
                         .map((d) => DAYS_OF_WEEK[d])
-                        .join(", ")}
+                        .join(', ')}
                       )
                     </span>
                   )}

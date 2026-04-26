@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import type { ViewMode } from "@/lib/types";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { UserMenu } from "@/components/auth/UserMenu";
+import { Button } from '@/components/ui/button';
+import { CALENDAR_VIEWS, ViewMode } from '@/constants/calendar';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { UserMenu } from '@/components/auth/user-menu';
 
 interface CalendarHeaderProps {
   title: string;
@@ -13,12 +13,6 @@ interface CalendarHeaderProps {
   onNext: () => void;
   onToday: () => void;
 }
-
-const views: { value: ViewMode; label: string }[] = [
-  { value: "day", label: "Day" },
-  { value: "week", label: "Week" },
-  { value: "month", label: "Month" },
-];
 
 export function CalendarHeader({
   title,
@@ -63,16 +57,16 @@ export function CalendarHeader({
       </div>
       <div className="flex items-center gap-2">
         <div className="flex rounded-lg border border-border bg-card p-0.5">
-          {views.map((v) => (
+          {CALENDAR_VIEWS.map((v) => (
             <Button
-              key={v.value}
               variant="ghost"
-              size={"xs"}
+              size="xs"
+              key={v.value}
               onClick={() => onViewChange(v.value)}
-              className={`px-3 py-1 shadow-none bg-clip-border ${
+              className={`px-3 py-1 bg-clip-border ${
                 view === v.value
-                  ? "bg-white text-foreground shadow-sm hover:bg-white"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? 'bg-white text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {v.label}

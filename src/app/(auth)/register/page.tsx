@@ -1,36 +1,37 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { registerUser } from "@/lib/auth";
-import { useAuth } from "@/hooks/useAuth";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { registerUser } from '@/lib/auth';
+import { useAuth } from '@/hooks/useAuth';
+import { PATHS_NAME } from '@/constants/paths-name';
 
 export default function RegisterPage() {
   const router = useRouter();
   const { setSession } = useAuth();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
-      setError("Please fill in all fields");
+      setError('Please fill in all fields');
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError('Password must be at least 6 characters');
       return;
     }
 
@@ -50,7 +51,7 @@ export default function RegisterPage() {
 
     setSession(result.session);
     toast.success("Account created! Let's go 🚀");
-    router.push("/");
+    router.push(PATHS_NAME.HOME);
   };
 
   return (
@@ -62,7 +63,9 @@ export default function RegisterPage() {
             <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Schedule
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">Join the vibe 🌟</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Join the vibe 🌟
+            </p>
           </div>
 
           {/* Form */}
@@ -97,7 +100,10 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-muted-foreground text-xs">
+              <Label
+                htmlFor="password"
+                className="text-muted-foreground text-xs"
+              >
                 Password
               </Label>
               <Input
@@ -112,7 +118,10 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="confirm" className="text-muted-foreground text-xs">
+              <Label
+                htmlFor="confirm"
+                className="text-muted-foreground text-xs"
+              >
                 Confirm Password
               </Label>
               <Input
@@ -133,12 +142,12 @@ export default function RegisterPage() {
               disabled={loading}
               className="w-full bg-primary text-white hover:bg-primary-hover rounded-xl"
             >
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? 'Creating account...' : 'Create account'}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link
               href="/login"
               className="text-primary hover:underline font-medium"

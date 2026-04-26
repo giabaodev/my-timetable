@@ -1,25 +1,24 @@
-"use client";
+'use client';
 
-import { useMemo, useEffect, useRef } from "react";
-import { format, startOfWeek, addDays, isSameDay } from "date-fns";
-import { EventBlock } from "./EventBlock";
-import { CurrentTimeIndicator } from "./CurrentTimeIndicator";
-import { getEventsForRange } from "@/hooks/useEvents";
-import type { ScheduleEvent } from "@/lib/types";
+import { useEffect, useRef } from 'react';
+import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
+import { EventBlock } from './event-block';
+import { CurrentTimeIndicator } from './current-time-indicator';
+import { getEventsForRange } from '@/hooks/useEvents';
+import type { ScheduleEvent } from '@/constants/calendar';
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 const HOUR_HEIGHT = 60;
-const MOBILE_TIME_WIDTH = 40;
 
 function getTimePosition(time: string): number {
-  const [h, m] = time.split(":").map(Number);
+  const [h, m] = time.split(':').map(Number);
   return (h + m / 60) * HOUR_HEIGHT;
 }
 
 function getEventHeight(start: string, end: string): number {
   return Math.max(
     getTimePosition(end) - getTimePosition(start),
-    HOUR_HEIGHT / 2,
+    HOUR_HEIGHT / 2
   );
 }
 
@@ -39,6 +38,8 @@ export function WeekView({
   const scrollRef = useRef<HTMLDivElement>(null);
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  const rangeStart = weekDays[0];
+  const rangeEnd = weekDays[6];
 
   const now = new Date();
   const isThisWeek = weekDays.some((d) => isSameDay(d, now));
@@ -46,9 +47,7 @@ export function WeekView({
     ? (now.getHours() + now.getMinutes() / 60) * HOUR_HEIGHT
     : 0;
 
-  const eventMap = useMemo(() => {
-    return getEventsForRange(events, weekDays[0], weekDays[6]);
-  }, [events, weekDays[0].getTime(), weekDays[6].getTime()]);
+  const eventMap = getEventsForRange(events, rangeStart, rangeEnd);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -61,27 +60,27 @@ export function WeekView({
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Day headers */}
       <div className="flex border-b border-border shrink-0">
-        <div className="w-11 md:w-14 shrink-0" />
+        <div className="w-14 shrink-0" />
         {weekDays.map((day) => {
           const today = isSameDay(day, now);
           return (
             <div
               key={day.toISOString()}
               className={`flex-1 text-center py-2 border-l border-border/50 ${
-                today ? "bg-primary/10" : ""
+                today ? 'bg-primary/10' : ''
               }`}
             >
               <div className="text-[11px] text-muted-foreground uppercase tracking-wide">
-                {format(day, "EEE")}
+                {format(day, 'EEE')}
               </div>
               <div
                 className={`text-lg font-semibold ${
                   today
-                    ? "bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto"
-                    : "text-foreground"
+                    ? 'bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto'
+                    : 'text-foreground'
                 }`}
               >
-                {format(day, "d")}
+                {format(day, 'd')}
               </div>
             </div>
           );
@@ -95,21 +94,21 @@ export function WeekView({
           style={{ height: HOURS.length * HOUR_HEIGHT }}
         >
           {/* Time labels */}
-          <div className="w-11 md:w-14 shrink-0 relative">
+          <div className="w-14 shrink-0 relative">
             {HOURS.map((hour) => (
               <div
                 key={hour}
                 className="absolute left-0 right-0 text-right pr-2 text-[11px] text-muted-foreground -translate-y-2"
                 style={{ top: hour * HOUR_HEIGHT }}
               >
-                {hour === 0 ? "" : format(new Date(2000, 0, 1, hour), "h a")}
+                {hour === 0 ? '' : format(new Date(2000, 0, 1, hour), 'h a')}
               </div>
             ))}
           </div>
 
           {/* Day columns */}
           {weekDays.map((day) => {
-            const dayStr = format(day, "yyyy-MM-dd");
+            const dayStr = format(day, 'yyyy-MM-dd');
             const dayEvents = eventMap.get(dayStr) || [];
             const today = isSameDay(day, now);
 
@@ -117,7 +116,7 @@ export function WeekView({
               <div
                 key={dayStr}
                 className={`flex-1 relative border-l border-border/50 ${
-                  today ? "bg-primary/5" : ""
+                  today ? 'bg-primary/5' : ''
                 }`}
               >
                 {HOURS.map((hour) => (
@@ -127,7 +126,7 @@ export function WeekView({
                     className="absolute left-0 right-0 border-b border-border/30 cursor-pointer hover:bg-accent/30 transition-colors bg-transparent"
                     style={{ top: hour * HOUR_HEIGHT, height: HOUR_HEIGHT }}
                     onClick={() =>
-                      onSlotClick(dayStr, `${String(hour).padStart(2, "0")}:00`)
+                      onSlotClick(dayStr, `${String(hour).padStart(2, '0')}:00`)
                     }
                   />
                 ))}
@@ -136,7 +135,7 @@ export function WeekView({
                   <div
                     style={{
                       top: currentTimeTop,
-                      position: "absolute",
+                      position: 'absolute',
                       left: 0,
                       right: 0,
                     }}

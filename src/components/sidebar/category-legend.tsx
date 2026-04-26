@@ -1,6 +1,6 @@
 "use client";
 
-import { CATEGORY_OPTIONS } from "@/lib/types";
+import { CATEGORY_OPTIONS } from "@/constants/calendar";
 
 export function CategoryLegend() {
   return (

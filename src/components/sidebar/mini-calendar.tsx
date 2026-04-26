@@ -1,21 +1,22 @@
-"use client";
+'use client';
 
+import { Button } from '@/components/ui/button';
+import { DAYS_OF_WEEK } from '@/constants/calendar';
 import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  eachDayOfInterval,
-  isSameMonth,
-  isSameDay,
-  isToday,
   addMonths,
+  eachDayOfInterval,
+  endOfMonth,
+  endOfWeek,
+  format,
+  isSameDay,
+  isSameMonth,
+  isToday,
+  startOfMonth,
+  startOfWeek,
   subMonths,
-} from "date-fns";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+} from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface MiniCalendarProps {
   selectedDate: Date;
@@ -26,19 +27,23 @@ export function MiniCalendar({
   selectedDate,
   onDateSelect,
 }: Readonly<MiniCalendarProps>) {
-  const [viewDate, setViewDate] = useState(selectedDate);
+  const [viewDate, setViewDate] = useState<Date>(selectedDate);
+  const monthStart = startOfMonth(selectedDate);
+  const monthEnd = endOfMonth(selectedDate);
 
-  const monthStart = startOfMonth(viewDate);
-  const monthEnd = endOfMonth(viewDate);
   const calStart = startOfWeek(monthStart, { weekStartsOn: 1 });
   const calEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
   const days = eachDayOfInterval({ start: calStart, end: calEnd });
+
+  useEffect(() => {
+    setViewDate(selectedDate);
+  }, [selectedDate]);
 
   return (
     <div className="p-3">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-semibold text-foreground">
-          {format(viewDate, "MMMM yyyy")}
+          {format(selectedDate, 'MMMM yyyy')}
         </span>
         <div className="flex gap-0.5">
           <Button
@@ -61,33 +66,32 @@ export function MiniCalendar({
       </div>
 
       <div className="grid grid-cols-7 gap-0">
-        {(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const).map(
-          (d) => (
-            <div
-              key={d}
-              className="text-center text-[10px] text-muted-foreground font-medium py-1"
-            >
-              {d.charAt(0)}
-            </div>
-          ),
-        )}
+        {DAYS_OF_WEEK.map((d) => (
+          <div
+            key={d.label}
+            className="text-center text-xs text-muted-foreground font-medium py-1"
+          >
+            {d.value}
+          </div>
+        ))}
         {days.map((day) => {
           const inMonth = isSameMonth(day, viewDate);
           const selected = isSameDay(day, selectedDate);
           const today = isToday(day);
 
           return (
-            <button
+            <Button
+              variant="ghost"
               key={day.toISOString()}
               onClick={() => onDateSelect(day)}
-              className={`text-center text-[11px] py-1 rounded-full transition-all hover:bg-accent ${
-                inMonth ? "text-foreground" : "text-muted-foreground/40"
+              className={`rounded-full hover:bg-accent ${
+                inMonth ? 'text-foreground' : 'text-muted-foreground/40'
               } ${
-                selected ? "bg-primary text-white hover:bg-primary" : ""
-              } ${today && !selected ? "font-bold text-primary" : ""}`}
+                selected ? 'bg-primary text-white pointer-events-none' : ''
+              } ${today && !selected ? 'font-bold text-primary' : ''}`}
             >
-              {format(day, "d")}
-            </button>
+              {format(day, 'd')}
+            </Button>
           );
         })}
       </div>

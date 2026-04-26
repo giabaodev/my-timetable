@@ -7,7 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
+import { Plus } from "lucide-react";
 
 interface GoogleProfile {
   name: string;
@@ -94,8 +95,7 @@ export function GoogleButton({ onSuccess }: Readonly<GoogleButtonProps>) {
                 </div>
               </button>
             ))}
-            <button
-              type="button"
+            <Button
               onClick={() => {
                 setPickerOpen(false);
                 onSuccess({
@@ -103,13 +103,14 @@ export function GoogleButton({ onSuccess }: Readonly<GoogleButtonProps>) {
                   email: `user${Date.now()}@gmail.com`,
                 });
               }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-card transition-colors text-left text-sm text-muted-foreground"
+              variant="ghost"
+              className="w-full h-14 flex justify-start gap-3 px-3 py-2.5 rounded-lg hover:bg-card transition-colors text-left text-sm text-muted-foreground"
             >
-              <div className="size-9 rounded-full border-2 border-dashed border-border flex items-center justify-center text-muted-foreground shrink-0">
-                +
+              <div className="size-9 rounded-full border-2 border-dashed border-border flex items-center justify-center shrink-0">
+                <Plus className="text-muted-foreground " />
               </div>
               Use another account
-            </button>
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

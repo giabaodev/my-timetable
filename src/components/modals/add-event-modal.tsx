@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { format } from "date-fns";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   EVENT_COLORS,
   CATEGORY_OPTIONS,
@@ -29,12 +29,12 @@ import {
   type EventCategory,
   type RecurrenceType,
   type ScheduleEvent,
-} from "@/lib/types";
+} from '@/constants/calendar';
 
 interface AddEventModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave: (event: Omit<ScheduleEvent, "id" | "createdAt">) => void;
+  onSave: (event: Omit<ScheduleEvent, 'id' | 'createdAt'>) => void;
   defaultDate?: string;
   defaultTime?: string;
 }
@@ -43,7 +43,7 @@ const TIME_OPTIONS: string[] = [];
 for (let h = 0; h < 24; h++) {
   for (let m = 0; m < 60; m += 30) {
     TIME_OPTIONS.push(
-      `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
+      `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
     );
   }
 }
@@ -55,32 +55,32 @@ export function AddEventModal({
   defaultDate,
   defaultTime,
 }: Readonly<AddEventModalProps>) {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [date, setDate] = useState(
-    defaultDate || format(new Date(), "yyyy-MM-dd"),
+    defaultDate || format(new Date(), 'yyyy-MM-dd')
   );
-  const [startTime, setStartTime] = useState(defaultTime || "09:00");
+  const [startTime, setStartTime] = useState(defaultTime || '09:00');
   const [endTime, setEndTime] = useState(
     defaultTime
-      ? `${String(Math.min(23, Number.parseInt(defaultTime.split(":")[0]) + 1)).padStart(2, "0")}:${defaultTime.split(":")[1]}`
-      : "10:00",
+      ? `${String(Math.min(23, Number.parseInt(defaultTime.split(':')[0]) + 1)).padStart(2, '0')}:${defaultTime.split(':')[1]}`
+      : '10:00'
   );
   const [color, setColor] = useState<string>(EVENT_COLORS[0]);
-  const [category, setCategory] = useState<EventCategory>("class");
-  const [recurrenceType, setRecurrenceType] = useState<RecurrenceType>("none");
+  const [category, setCategory] = useState<EventCategory>('class');
+  const [recurrenceType, setRecurrenceType] = useState<RecurrenceType>('none');
   const [customDays, setCustomDays] = useState<number[]>([]);
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState('');
 
   const resetForm = () => {
-    setTitle("");
-    setDate(format(new Date(), "yyyy-MM-dd"));
-    setStartTime("09:00");
-    setEndTime("10:00");
+    setTitle('');
+    setDate(format(new Date(), 'yyyy-MM-dd'));
+    setStartTime('09:00');
+    setEndTime('10:00');
     setColor(EVENT_COLORS[0]);
-    setCategory("class");
-    setRecurrenceType("none");
+    setCategory('class');
+    setRecurrenceType('none');
     setCustomDays([]);
-    setNotes("");
+    setNotes('');
   };
 
   // Sync defaults when modal opens with new defaults
@@ -91,10 +91,10 @@ export function AddEventModal({
         setStartTime(defaultTime);
         const nextH = Math.min(
           23,
-          Number.parseInt(defaultTime.split(":")[0]) + 1,
+          Number.parseInt(defaultTime.split(':')[0]) + 1
         );
         setEndTime(
-          `${String(nextH).padStart(2, "0")}:${defaultTime.split(":")[1]}`,
+          `${String(nextH).padStart(2, '0')}:${defaultTime.split(':')[1]}`
         );
       }
     } else {
@@ -115,21 +115,21 @@ export function AddEventModal({
       category,
       recurrence: {
         type: recurrenceType,
-        ...(recurrenceType === "custom" ? { daysOfWeek: customDays } : {}),
+        ...(recurrenceType === 'custom' ? { daysOfWeek: customDays } : {}),
       },
       notes: notes.trim() || undefined,
     });
 
     resetForm();
     onOpenChange(false);
-    toast.success("Got it! 🎉", {
-      description: "Event added to your schedule",
+    toast.success('Got it! 🎉', {
+      description: 'Event added to your schedule',
     });
   };
 
   const toggleCustomDay = (day: number) => {
     setCustomDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
     );
   };
 
@@ -219,8 +219,8 @@ export function AddEventModal({
                   onClick={() => setColor(c)}
                   className={`size-8 rounded-full transition-all hover:scale-110 ${
                     color === c
-                      ? "ring-2 ring-offset-2 ring-offset-background"
-                      : ""
+                      ? 'ring-2 ring-offset-2 ring-offset-background'
+                      : ''
                   }`}
                   style={{
                     backgroundColor: c,
@@ -271,21 +271,21 @@ export function AddEventModal({
               </SelectContent>
             </Select>
 
-            {recurrenceType === "custom" && (
+            {recurrenceType === 'custom' && (
               <div className="flex gap-1 pt-2">
                 {DAYS_OF_WEEK.map((day, i) => (
-                  <button
-                    key={day}
-                    type="button"
+                  <Button
+                    size="xs"
+                    key={day.value}
                     onClick={() => toggleCustomDay(i)}
-                    className={`size-9 rounded-full text-xs font-medium transition-all ${
+                    className={`size-9 rounded-full ${
                       customDays.includes(i)
-                        ? "bg-primary text-white"
-                        : "bg-card text-muted-foreground hover:bg-accent"
+                        ? ''
+                        : 'bg-card text-muted-foreground hover:bg-accent'
                     }`}
                   >
-                    {day.charAt(0)}
-                  </button>
+                    {day.value}
+                  </Button>
                 ))}
               </div>
             )}

@@ -1,7 +1,7 @@
 "use client";
 
-import type { ScheduleEvent } from "@/lib/types";
-import { CATEGORY_OPTIONS } from "@/lib/types";
+import type { ScheduleEvent } from "@/constants/calendar";
+import { CATEGORY_OPTIONS } from "@/constants/calendar";
 
 interface EventBlockProps {
   event: ScheduleEvent;

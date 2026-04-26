@@ -1,25 +1,29 @@
-"use client";
+'use client';
 
-import { useState, useCallback, useEffect } from "react";
-import { format } from "date-fns";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { CalendarHeader } from "@/components/calendar/CalendarHeader";
-import { DayView } from "@/components/calendar/DayView";
-import { WeekView } from "@/components/calendar/WeekView";
-import { MonthView } from "@/components/calendar/MonthView";
-import { AddEventModal } from "@/components/modals/AddEventModal";
-import { EventDetailSheet } from "@/components/modals/EventDetailSheet";
-import { MiniCalendar } from "@/components/sidebar/MiniCalendar";
-import { CategoryLegend } from "@/components/sidebar/CategoryLegend";
-import { UserMenu } from "@/components/auth/UserMenu";
-import { useEvents } from "@/hooks/useEvents";
-import { useCalendar } from "@/hooks/useCalendar";
-import { useAuth } from "@/hooks/useAuth";
-import type { ScheduleEvent, ViewMode } from "@/lib/types";
+import { useState, useCallback, useEffect } from 'react';
+import { format } from 'date-fns';
+import { Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { CalendarHeader } from '@/app/(main)/calendar/_components/calendar-header';
+import { DayView } from '@/app/(main)/calendar/_components/day-view';
+import { WeekView } from '@/app/(main)/calendar/_components/week-view';
+import { MonthView } from '@/app/(main)/calendar/_components/month-view';
+import { AddEventModal } from '@/components/modals/add-event-modal';
+import { EventDetailSheet } from '@/components/modals/event-detail-sheet';
+import { MiniCalendar } from '@/components/sidebar/mini-calendar';
+import { CategoryLegend } from '@/components/sidebar/category-legend';
+import { UserMenu } from '@/components/auth/user-menu';
+import { useEvents } from '@/hooks/useEvents';
+import { useCalendar } from '@/hooks/useCalendar';
+import { useAuth } from '@/hooks/useAuth';
+import {
+  CALENDAR_VIEWS,
+  ViewMode,
+  type ScheduleEvent,
+} from '@/constants/calendar';
 
-export default function CalendarApp() {
+export default function CalendarPage() {
   const { session } = useAuth();
   const {
     events,
@@ -68,7 +72,7 @@ export default function CalendarApp() {
   }, []);
 
   const handleFabClick = useCallback(() => {
-    setAddDefaults({ date: format(currentDate, "yyyy-MM-dd") });
+    setAddDefaults({ date: format(currentDate, 'yyyy-MM-dd') });
     setAddModalOpen(true);
   }, [currentDate]);
 
@@ -80,17 +84,17 @@ export default function CalendarApp() {
         e.target instanceof HTMLTextAreaElement
       )
         return;
-      if (e.key === "n" || e.key === "N") {
+      if (e.key === 'n' || e.key === 'N') {
         e.preventDefault();
         handleFabClick();
       }
-      if (e.key === "t" || e.key === "T") {
+      if (e.key === 't' || e.key === 'T') {
         e.preventDefault();
         goToday();
       }
     };
-    globalThis.addEventListener("keydown", handleKeyDown);
-    return () => globalThis.removeEventListener("keydown", handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
   }, [handleFabClick, goToday]);
 
   // Loading skeleton
@@ -102,7 +106,7 @@ export default function CalendarApp() {
             <div className="h-8 w-48 bg-accent rounded-lg" />
             <div className="h-4 w-32 bg-accent rounded" />
             <div className="grid grid-cols-7 gap-2 mt-4">
-              {"abcdefghijklmnopqrstu".split("").map((c) => (
+              {'abcdefghijklmnopqrstu'.split('').map((c) => (
                 <div key={c} className="size-8 bg-accent rounded" />
               ))}
             </div>
@@ -128,7 +132,9 @@ export default function CalendarApp() {
 
       {/* Mobile Header */}
       <div className="sm:hidden flex items-center justify-between px-4 py-3 border-b border-border">
-        <h1 className="text-base font-semibold text-foreground">{getTitle()}</h1>
+        <h1 className="text-base font-semibold text-foreground">
+          {getTitle()}
+        </h1>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -164,15 +170,15 @@ export default function CalendarApp() {
 
           <div className="mt-auto p-3">
             <p className="text-[10px] text-muted-foreground/60 text-center">
-              Press{" "}
+              Press{' '}
               <kbd className="px-1 py-0.5 bg-accent rounded text-[9px] font-mono">
                 N
-              </kbd>{" "}
+              </kbd>{' '}
               for new event
-              {" · "}
+              {' · '}
               <kbd className="px-1 py-0.5 bg-accent rounded text-[9px] font-mono">
                 T
-              </kbd>{" "}
+              </kbd>{' '}
               for today
             </p>
           </div>
@@ -180,7 +186,7 @@ export default function CalendarApp() {
 
         {/* Main Calendar Area */}
         <main className="flex-1 flex flex-col overflow-hidden">
-          {view === "day" && (
+          {view === ViewMode.DAY && (
             <DayView
               date={currentDate}
               events={events}
@@ -188,7 +194,7 @@ export default function CalendarApp() {
               onEventClick={handleEventClick}
             />
           )}
-          {view === "week" && (
+          {view === ViewMode.WEEK && (
             <WeekView
               currentDate={currentDate}
               events={events}
@@ -196,7 +202,7 @@ export default function CalendarApp() {
               onEventClick={handleEventClick}
             />
           )}
-          {view === "month" && (
+          {view === ViewMode.MONTH && (
             <MonthView
               currentDate={currentDate}
               events={events}
@@ -222,36 +228,37 @@ export default function CalendarApp() {
 
       {/* Mobile Bottom Nav */}
       <nav className="sm:hidden flex items-center justify-around border-t border-border bg-background py-2 px-4 shrink-0">
-        {(["day", "week", "month"] as ViewMode[]).map((v) => (
-          <button
-            key={v}
-            onClick={() => setView(v)}
-            className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-colors ${
-              view === v
-                ? "text-primary"
-                : "text-muted-foreground hover:text-foreground"
+        {CALENDAR_VIEWS.map((v) => (
+          <Button
+            key={v.value}
+            onClick={() => setView(v.value)}
+            variant="ghost"
+            className={`gap-0.5 px-3 py-1 transition-colors ${
+              view === v.value
+                ? 'text-primary'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <span className="text-[10px] font-medium capitalize">{v}</span>
-          </button>
+            <span className="text-[10px] font-medium">{v.label}</span>
+          </Button>
         ))}
-        <button
+        <Button
           onClick={handleFabClick}
-          className="flex items-center justify-center size-10 rounded-full bg-primary text-white shadow-md hover:bg-primary-hover active:scale-95 transition-all"
+          className="flex size-10 rounded-full bg-primary text-white shadow-md hover:bg-primary-hover active:scale-95"
           aria-label="Add event"
         >
           <Plus className="size-5" />
-        </button>
+        </Button>
       </nav>
 
       {/* FAB for tablet */}
-      <button
+      <Button
         onClick={handleFabClick}
-        className="hidden sm:flex lg:hidden fixed bottom-6 right-6 items-center justify-center size-14 rounded-full bg-primary text-white shadow-lg hover:bg-primary-hover hover:shadow-xl hover:scale-105 active:scale-95 transition-all z-50"
+        className="hidden sm:flex lg:hidden fixed bottom-6 right-6 size-14 rounded-full bg-primary text-white shadow-lg hover:bg-primary-hover hover:shadow-xl hover:scale-105 active:scale-95 z-50"
         aria-label="Add event"
       >
         <Plus className="size-6" />
-      </button>
+      </Button>
 
       {/* Modals */}
       <AddEventModal

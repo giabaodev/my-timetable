@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useMemo, useEffect, useRef } from "react";
-import { format, isSameDay } from "date-fns";
-import { EventBlock } from "./EventBlock";
-import { CurrentTimeIndicator } from "./CurrentTimeIndicator";
-import { getEventsForRange } from "@/hooks/useEvents";
-import type { ScheduleEvent } from "@/lib/types";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useMemo, useEffect, useRef } from 'react';
+import { format, isSameDay } from 'date-fns';
+import { EventBlock } from './event-block';
+import { CurrentTimeIndicator } from './current-time-indicator';
+import { getEventsForRange } from '@/hooks/useEvents';
+import type { ScheduleEvent } from '@/constants/calendar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 const HOUR_HEIGHT = 64; // px
@@ -19,14 +19,14 @@ interface DayViewProps {
 }
 
 function getTimePosition(time: string): number {
-  const [h, m] = time.split(":").map(Number);
+  const [h, m] = time.split(':').map(Number);
   return (h + m / 60) * HOUR_HEIGHT;
 }
 
 function getEventHeight(start: string, end: string): number {
   return Math.max(
     getTimePosition(end) - getTimePosition(start),
-    HOUR_HEIGHT / 2,
+    HOUR_HEIGHT / 2
   );
 }
 
@@ -37,7 +37,7 @@ export function DayView({
   onEventClick,
 }: Readonly<DayViewProps>) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const dateStr = format(date, "yyyy-MM-dd");
+  const dateStr = format(date, 'yyyy-MM-dd');
 
   const dayEvents = useMemo(() => {
     const map = getEventsForRange(events, date, date);
@@ -73,13 +73,13 @@ export function DayView({
               style={{ top: hour * HOUR_HEIGHT, height: HOUR_HEIGHT }}
             >
               <div className="w-16 shrink-0 pr-2 text-right text-[11px] text-muted-foreground pt-[-4px] -translate-y-2">
-                {hour === 0 ? "" : format(new Date(2000, 0, 1, hour), "h a")}
+                {hour === 0 ? '' : format(new Date(2000, 0, 1, hour), 'h a')}
               </div>
               <button
                 type="button"
                 className="flex-1 cursor-pointer hover:bg-accent/30 transition-colors border-none bg-transparent"
                 onClick={() =>
-                  onSlotClick(dateStr, `${String(hour).padStart(2, "0")}:00`)
+                  onSlotClick(dateStr, `${String(hour).padStart(2, '0')}:00`)
                 }
               />
             </div>
@@ -89,7 +89,7 @@ export function DayView({
             <div
               style={{
                 top: currentTimeTop,
-                position: "absolute",
+                position: 'absolute',
                 left: 56,
                 right: 0,
               }}

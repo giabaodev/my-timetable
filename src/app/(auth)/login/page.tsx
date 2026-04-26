@@ -8,15 +8,16 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { loginUser, googleLogin } from "@/lib/auth";
 import { useAuth } from "@/hooks/useAuth";
-import { GoogleButton } from "@/components/auth/GoogleButton";
+import { GoogleButton } from "@/app/(auth)/_components/google-button";
+import { PATHS_NAME } from "@/constants/paths-name";
 
 export default function LoginPage() {
   const router = useRouter();
   const { setSession } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +38,7 @@ export default function LoginPage() {
     }
 
     setSession(result.session);
-    router.push("/");
+    router.push(PATHS_NAME.HOME);
   };
 
   const handleGoogle = (profile: {
@@ -48,7 +49,7 @@ export default function LoginPage() {
     const result = googleLogin(profile);
     if (result.ok) {
       setSession(result.session);
-      router.push("/");
+      router.push(PATHS_NAME.HOME);
     }
   };
 
@@ -61,7 +62,9 @@ export default function LoginPage() {
             <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Schedule
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">Welcome back ✌️</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Welcome back ✌️
+            </p>
           </div>
 
           {/* Google */}
@@ -95,7 +98,10 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-muted-foreground text-xs">
+              <Label
+                htmlFor="password"
+                className="text-muted-foreground text-xs"
+              >
                 Password
               </Label>
               <Input
