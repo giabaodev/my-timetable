@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { PATHS_NAME } from "@/constants/paths-name";
 
 const PUBLIC_PATHS = new Set(["/login", "/register"]);
 
@@ -19,11 +20,11 @@ export function AuthGuard({
     if (isLoading) return;
 
     if (!session && !isPublic) {
-      router.replace("/login");
+      router.replace(PATHS_NAME.LOGIN);
     }
 
     if (session && isPublic) {
-      router.replace("/");
+      router.replace(PATHS_NAME.HOME);
     }
   }, [session, isLoading, isPublic, router]);
 

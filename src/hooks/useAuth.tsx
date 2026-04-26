@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
+import { clearSession, getSession, type AuthSession } from '@/lib/auth';
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
+  useState,
   type ReactNode,
-} from "react";
-import { getSession, clearSession, type AuthSession } from "@/lib/auth";
+} from 'react';
 
 interface AuthContextValue {
   session: AuthSession | null;
@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [currentSession, setCurrentSession] = useState<AuthSession | null>(
-    null,
+    null
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
 
   const value = useMemo(
     () => ({ session: currentSession, isLoading, setSession, logout }),
-    [currentSession, isLoading, setSession, logout],
+    [currentSession, isLoading, setSession, logout]
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;
@@ -50,6 +50,6 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
   return ctx;
 }
