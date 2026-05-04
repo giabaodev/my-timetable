@@ -1,6 +1,8 @@
-export const PATHS_NAME = {
-  HOME: "/",
-  LOGIN: "/login",
-  REGISTER: "/register",
-  CALENDAR: "/calendar",
-} as const;
+export const PUBLIC_PATHS_NAME = {
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
+};
+
+export const PRIVATE_PATHS_NAME = {
+  CALENDAR: '/calendar',
+};

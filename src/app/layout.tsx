@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Toaster } from "@/components/ui/sonner";
-import { AuthProvider } from "@/hooks/useAuth";
-import { AuthGuard } from "@/components/auth/auth-guard";
+import { Toaster } from '@/components/ui/sonner';
+import { AuthProvider } from '@/providers/auth-provider';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
+import { Geist } from 'next/font/google';
+import './globals.css';
+import { QueryProvider } from '@/providers/query-provider';
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
 
 const geistSans = Geist({
-  variable: "--font-sans",
-  subsets: ["latin"],
+  variable: '--font-sans',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Schedule",
-  description: "A modern schedule management app",
+  title: 'Schedule',
+  description: 'A modern schedule management app',
 };
 
 export default function RootLayout({
@@ -25,15 +26,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
-        <AuthProvider>
-          <AuthGuard>{children}</AuthGuard>
-        </AuthProvider>
+        <QueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryProvider>
         <Toaster
           position="bottom-center"
           toastOptions={{
             duration: 3000,
           }}
         />
+        <LoadingOverlay />
       </body>
       <Analytics />
       <SpeedInsights />

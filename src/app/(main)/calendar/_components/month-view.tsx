@@ -12,7 +12,7 @@ import {
   isToday,
 } from 'date-fns';
 import { EventBlock } from './event-block';
-import { getEventsForRange } from '@/hooks/useEvents';
+import { getEventsForRange } from '@/app/(main)/calendar/hooks/useEvents';
 import type { ScheduleEvent } from '@/constants/calendar';
 
 interface MonthViewProps {
