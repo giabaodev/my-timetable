@@ -20,9 +20,9 @@ function AuthCallbackContent() {
       setUser(user);
       router.replace(PRIVATE_PATHS_NAME.CALENDAR);
     } else {
-      hideLoading();
       router.replace(PUBLIC_PATHS_NAME.LOGIN);
     }
+    hideLoading();
   }, [hideLoading, router, searchParams, setUser, showLoading]);
 
   return null;
