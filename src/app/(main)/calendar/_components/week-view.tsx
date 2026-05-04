@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { EventBlock } from './event-block';
 import { CurrentTimeIndicator } from './current-time-indicator';
-import { getEventsForRange } from '@/hooks/useEvents';
+import { getEventsForRange } from '@/app/(main)/calendar/hooks/useEvents';
 import type { ScheduleEvent } from '@/constants/calendar';
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);

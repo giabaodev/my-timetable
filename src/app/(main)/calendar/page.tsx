@@ -14,17 +14,17 @@ import { EventDetailSheet } from '@/components/modals/event-detail-sheet';
 import { MiniCalendar } from '@/components/sidebar/mini-calendar';
 import { CategoryLegend } from '@/components/sidebar/category-legend';
 import { UserMenu } from '@/components/auth/user-menu';
-import { useEvents } from '@/hooks/useEvents';
-import { useCalendar } from '@/hooks/useCalendar';
-import { useAuth } from '@/hooks/useAuth';
+import { useEvents } from '@/app/(main)/calendar/hooks/useEvents';
+import { useCalendar } from '@/app/(main)/calendar/hooks/useCalendar';
 import {
   CALENDAR_VIEWS,
   ViewMode,
   type ScheduleEvent,
 } from '@/constants/calendar';
+import { useAuthStore } from '@/stores';
 
 export default function CalendarPage() {
-  const { session } = useAuth();
+  const { user } = useAuthStore();
   const {
     events,
     isLoaded,
@@ -32,7 +32,7 @@ export default function CalendarPage() {
     deleteEvent,
     deleteOccurrence,
     deleteThisAndFuture,
-  } = useEvents(session?.userId);
+  } = useEvents(user?.userId);
 
   const {
     currentDate,

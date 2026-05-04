@@ -1,56 +1,22 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { loginUser, googleLogin } from "@/lib/auth";
-import { useAuth } from "@/hooks/useAuth";
-import { GoogleButton } from "@/app/(auth)/_components/google-button";
-import { PATHS_NAME } from "@/constants/paths-name";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Link from 'next/link';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { GoogleButton } from '../_components/google-button';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { setSession } = useAuth();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-
-    if (!email.trim() || !password) {
-      setError("Please fill in all fields");
-      return;
-    }
-
-    setLoading(true);
-    const result = loginUser(email, password);
-    setLoading(false);
-
-    if (!result.ok) {
-      setError(result.error);
-      return;
-    }
-
-    setSession(result.session);
-    router.push(PATHS_NAME.HOME);
-  };
-
-  const handleGoogle = (profile: {
-    name: string;
-    email: string;
-    picture?: string;
-  }) => {
-    const result = googleLogin(profile);
-    if (result.ok) {
-      setSession(result.session);
-      router.push(PATHS_NAME.HOME);
-    }
+    toast.info('Feature not implemented yet...');
   };
 
   return (
@@ -68,7 +34,7 @@ export default function LoginPage() {
           </div>
 
           {/* Google */}
-          <GoogleButton onSuccess={handleGoogle} />
+          <GoogleButton />
 
           {/* Divider */}
           <div className="relative my-6">
@@ -122,12 +88,12 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full bg-primary text-white hover:bg-primary-hover rounded-xl"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link
               href="/register"
               className="text-primary hover:underline font-medium"

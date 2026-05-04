@@ -1,17 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { useAuth } from "@/hooks/useAuth";
-import { LogOut, User, ChevronDown } from "lucide-react";
-import Image from "next/image";
+import { PUBLIC_PATHS_NAME } from '@/constants/paths-name';
+import { userLogout } from '@/services/user-logout';
+import { useAuthStore } from '@/stores';
+import { ChevronDown, LogOut, User } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
 
 export function UserMenu() {
-  const { session, logout } = useAuth();
-  const router = useRouter();
+  const { user, clearUser } = useAuthStore();
+
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -20,51 +24,64 @@ export function UserMenu() {
       }
     };
     if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [open]);
 
-  if (!session) return null;
+  if (!user) return null;
 
-  const initials = session.name
-    .split(" ")
+  const initials = user.fullName
+    .split(' ')
     .map((n) => n[0])
-    .join("")
+    .join('')
     .toUpperCase()
     .slice(0, 2);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setOpen(false);
-    toast.success("See you later 👋");
-    logout();
-    router.push("/login");
+    try {
+      const data = await userLogout();
+      if (data.success) {
+        clearUser();
+        toast.success('See you later 👋');
+        router.push(PUBLIC_PATHS_NAME.LOGIN);
+      }
+    } catch {
+      toast.error('Error logging out. Please try again.');
+    }
   };
 
   return (
-    <div ref={menuRef} className="relative">
-      <button
-        type="button"
+    <div ref={menuRef} className="flex relative">
+      <Button
+        variant="ghost"
+        size="lg"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-accent transition-colors"
+        className="hover:bg-accent transition-colors"
         aria-label="User menu"
       >
-        {session.avatar ? (
+        {user.avatarUrl ? (
           <Image
-            src={session.avatar}
-            alt={session.name}
-            className="size-7 rounded-full object-cover"
+            src={user.avatarUrl}
+            alt={user.fullName}
+            className="rounded-full"
+            width={28}
+            height={28}
+            style={{
+              objectFit: 'cover',
+            }}
           />
         ) : (
           <div className="size-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
             {initials}
           </div>
         )}
-        <span className="text-sm font-medium text-foreground hidden sm:inline max-w-24 truncate">
-          {session.name}
+        <span className="text-sm font-medium text-foreground hidden sm:inline max-w-28 truncate">
+          {user.fullName}
         </span>
         <ChevronDown className="size-3 text-muted-foreground" />
-      </button>
+      </Button>
 
       {open && (
         <div className="absolute right-0 top-full mt-1.5 w-56 rounded-xl border border-border bg-card shadow-lg z-50 overflow-hidden">
@@ -76,20 +93,21 @@ export function UserMenu() {
               </span>
             </div>
             <p className="text-sm font-medium text-foreground mt-1.5">
-              {session.name}
+              {user.fullName}
             </p>
-            <p className="text-xs text-muted-foreground">{session.email}</p>
+            <p className="text-xs text-muted-foreground">{user.email}</p>
           </div>
 
           <div className="p-1">
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="lg"
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-destructive hover:bg-destructive/10 transition-colors text-left"
+              className="justify-start w-full gap-2 text-destructive hover:text-destructive/80 hover:bg-destructive/10 transition-colors"
             >
               <LogOut className="size-4" />
               Sign out
-            </button>
+            </Button>
           </div>
         </div>
       )}

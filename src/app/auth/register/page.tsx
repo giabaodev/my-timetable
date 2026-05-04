@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { PRIVATE_PATHS_NAME } from '@/constants/paths-name';
+import { useAuth } from '@/app/auth/_hooks/useAuth';
 import { registerUser } from '@/lib/auth';
-import { useAuth } from '@/hooks/useAuth';
-import { PATHS_NAME } from '@/constants/paths-name';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function RegisterPage() {
 
     setSession(result.session);
     toast.success("Account created! Let's go 🚀");
-    router.push(PATHS_NAME.HOME);
+    router.push(PRIVATE_PATHS_NAME.HOME);
   };
 
   return (

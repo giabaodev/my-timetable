@@ -4,7 +4,7 @@ import { useMemo, useEffect, useRef } from 'react';
 import { format, isSameDay } from 'date-fns';
 import { EventBlock } from './event-block';
 import { CurrentTimeIndicator } from './current-time-indicator';
-import { getEventsForRange } from '@/hooks/useEvents';
+import { getEventsForRange } from '@/app/(main)/calendar/hooks/useEvents';
 import type { ScheduleEvent } from '@/constants/calendar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
