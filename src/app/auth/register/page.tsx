@@ -4,8 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PRIVATE_PATHS_NAME } from '@/constants/paths-name';
-import { useAuth } from '@/app/auth/_hooks/useAuth';
-import { registerUser } from '@/lib/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -13,7 +11,6 @@ import { toast } from 'sonner';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { setSession } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +38,11 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
-    const result = registerUser(name.trim(), email, password);
+    const result = {
+      ok: false,
+      error: 'Feature not implemented yet...',
+      session: null,
+    };
     setLoading(false);
 
     if (!result.ok) {
@@ -49,9 +50,8 @@ export default function RegisterPage() {
       return;
     }
 
-    setSession(result.session);
     toast.success("Account created! Let's go 🚀");
-    router.push(PRIVATE_PATHS_NAME.HOME);
+    router.push(PRIVATE_PATHS_NAME.CALENDAR);
   };
 
   return (
