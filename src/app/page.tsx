@@ -1,11 +1,12 @@
 'use client';
 
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { PRIVATE_PATHS_NAME, PUBLIC_PATHS_NAME } from '@/constants/paths-name';
 import { useAuthStore, useLoadingStore } from '@/stores';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 
-export default function Home() {
+function HomeContent() {
   const { showLoading, hideLoading } = useLoadingStore();
   const setUser = useAuthStore((s) => s.setUser);
   const searchParams = useSearchParams();
@@ -15,14 +16,22 @@ export default function Home() {
     showLoading();
     const userParam = searchParams.get('user');
     if (userParam) {
-      console.log('User data found in query params, logging in user');
       const user = JSON.parse(decodeURIComponent(userParam));
       setUser(user);
       router.replace(PRIVATE_PATHS_NAME.CALENDAR);
     } else {
-      console.log('No user data found in query params, redirecting to login');
       router.replace(PUBLIC_PATHS_NAME.LOGIN);
     }
     hideLoading();
   }, [hideLoading, router, searchParams, setUser, showLoading]);
+
+  return null;
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<LoadingOverlay />}>
+      <HomeContent />
+    </Suspense>
+  );
 }
