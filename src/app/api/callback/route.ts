@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
     value: token,
     httpOnly: true,
     secure: true,
-    sameSite: 'none',
     maxAge: 604800,
     path: '/',
   });
