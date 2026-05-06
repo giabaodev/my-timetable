@@ -16,20 +16,19 @@ export function AuthProvider({
   const isPrivatePath = Object.values(PRIVATE_PATHS_NAME).includes(pathname);
 
   useEffect(() => {
+    showLoading('Getting user info...');
     const fetchUserInfo = async () => {
-      showLoading();
       try {
         const data = await getUserInfo();
         setUser(data);
       } catch {
         clearUser();
-      } finally {
-        hideLoading();
       }
     };
     if (isPrivatePath && !user) {
       fetchUserInfo();
     }
+    hideLoading();
   }, [clearUser, hideLoading, isPrivatePath, setUser, showLoading, user]);
 
   return <>{children}</>;
