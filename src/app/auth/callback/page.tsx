@@ -1,11 +1,12 @@
 'use client';
 
+import { SuspenseWrapper } from '@/components/wrapper/suspense-wrapper';
 import { PUBLIC_PATHS_NAME } from '@/constants/paths-name';
 import { useAuthStore, useLoadingStore } from '@/stores';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function AuthCallback() {
+function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setUser = useAuthStore((s) => s.setUser);
@@ -43,4 +44,12 @@ export default function AuthCallback() {
   }, [hideLoading, router, searchParams, setUser, showLoading]);
 
   return null;
+}
+
+export default function AuthCallback() {
+  return (
+    <SuspenseWrapper>
+      <AuthCallbackContent />
+    </SuspenseWrapper>
+  );
 }
