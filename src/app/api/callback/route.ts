@@ -1,7 +1,10 @@
 import { PUBLIC_PATHS_NAME } from '@/constants/paths-name';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  const cookieStore = await cookies();
+
   const { searchParams } = req.nextUrl;
   const token = searchParams.get('token');
   const user = searchParams.get('user');
@@ -13,9 +16,9 @@ export async function GET(req: NextRequest) {
   const homeUrl = new URL('/', req.url);
   homeUrl.searchParams.set('user', user);
 
-  const response = NextResponse.redirect(homeUrl);
-
-  response.cookies.set('access_token', token, {
+  cookieStore.set({
+    name: 'access_token',
+    value: token,
     httpOnly: true,
     secure: true,
     sameSite: 'none',
@@ -23,5 +26,5 @@ export async function GET(req: NextRequest) {
     path: '/',
   });
 
-  return response;
+  return NextResponse.redirect(homeUrl);
 }

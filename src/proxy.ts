@@ -17,9 +17,13 @@ export function proxy(req: NextRequest): NextResponse<unknown> {
 
   if (isPublic && token) {
     return NextResponse.redirect(new URL('/', req.url));
-  } else if (isPrivate && !token) {
+  }
+
+  if (isPrivate && !token) {
     return NextResponse.redirect(new URL(PUBLIC_PATHS_NAME.LOGIN, req.url));
-  } else return NextResponse.next();
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
