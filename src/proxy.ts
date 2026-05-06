@@ -16,14 +16,10 @@ export function proxy(req: NextRequest): NextResponse<unknown> {
   const token = req.cookies.get(ACCESS_TOKEN)?.value;
 
   if (isPublic && token) {
-    return NextResponse.redirect(new URL(PRIVATE_PATHS_NAME.CALENDAR, req.url));
-  }
-
-  if (isPrivate && !token) {
+    return NextResponse.redirect(new URL('/', req.url));
+  } else if (isPrivate && !token) {
     return NextResponse.redirect(new URL(PUBLIC_PATHS_NAME.LOGIN, req.url));
-  }
-
-  return NextResponse.next();
+  } else return NextResponse.next();
 }
 
 export const config = {
