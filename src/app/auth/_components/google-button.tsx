@@ -1,12 +1,12 @@
 'use client';
 
 import { GoogleIcon } from '@/assets/icons/google';
-import { APP_CONFIG } from '@/configs';
 import { Button } from '../../../components/ui/button';
+import { APP_CONFIG } from '@/configs';
 
 export function GoogleButton() {
   const redirectToGoogle = () => {
-    globalThis.location.href = APP_CONFIG.GOOGLE_LOGIN_URL;
+    return (window.location.href = APP_CONFIG.GOOGLE_LOGIN_URL);
   };
 
   return (
